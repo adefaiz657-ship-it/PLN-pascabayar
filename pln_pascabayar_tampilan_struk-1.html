@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PLN Pascabayar</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f2f5f8;font-family:Arial,sans-serif;color:#17202a}
+.wrap{max-width:480px;margin:auto;padding:18px}.card{background:white;border-radius:18px;padding:20px;box-shadow:0 6px 24px #0001}
+.logo{font-weight:800;color:#1261d6;font-size:13px}.title{font-size:25px;font-weight:800;margin:6px 0}.sub{color:#68737d;font-size:14px;margin-bottom:20px}
+label{display:block;font-weight:700;font-size:14px;margin:15px 0 7px}input{width:100%;padding:14px;border:1px solid #d6dde5;border-radius:10px;font-size:17px}
+button{width:100%;padding:14px;border:0;border-radius:11px;font-weight:800;font-size:16px;margin-top:14px}.blue{background:#1261d6;color:#fff}.gray{background:#e9eef4}
+.result{display:none;margin-top:20px;border:1px solid #e0e6ec;border-radius:14px;padding:16px}.ok{color:#138a4b;font-weight:800;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #edf0f2;font-size:14px}.row b{text-align:right}.total{font-size:18px;font-weight:800;border:0;padding-top:14px}
+.struk{display:none;background:#fff;padding:18px;margin-top:18px;border-radius:10px;box-shadow:0 4px 18px #0001;font-family:monospace}.center{text-align:center}.dash{border-top:1px dashed #555;margin:12px 0}.srow{display:flex;justify-content:space-between;margin:7px 0}.big{font-size:18px;font-weight:800}.small{font-size:11px;color:#555;line-height:1.5}
+@media print{body{background:#fff}.wrap>*:not(.struk){display:none!important}.struk{display:block!important;box-shadow:none;margin:0;border-radius:0;width:80mm}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<div class="logo">LOKET PEMBAYARAN</div>
+<div class="title">Cek Tagihan PLN</div>
+<div class="sub">PLN Pascabayar</div>
+<label>ID Pelanggan</label>
+<input id="id" inputmode="numeric" maxlength="20" placeholder="Masukkan ID Pelanggan">
+<button class="blue" onclick="cek()">CEK TAGIHAN</button>
+<div id="result" class="result">
+<div class="ok">✓ Data tagihan ditemukan</div>
+<div class="row"><span>ID Pelanggan</span><b id="rid"></b></div>
+<div class="row"><span>Nama</span><b id="nama"></b></div>
+<div class="row"><span>Tarif / Daya</span><b id="daya"></b></div>
+<div class="row"><span>Periode</span><b id="periode"></b></div>
+<div class="row"><span>Tagihan PLN</span><b id="tagihan"></b></div>
+<div class="row"><span>Admin</span><b>Rp6.500</b></div>
+<div class="row total"><span>Total</span><b id="total"></b></div>
+<button class="blue" onclick="cetak()">CETAK STRUK</button>
+<button class="gray" onclick="resetForm()">CEK ID LAIN</button>
+</div>
+</div>
+<div id="struk" class="struk">
+<div class="center"><b>LOKET PEMBAYARAN</b><br>STRUK PEMBAYARAN TAGIHAN LISTRIK</div>
+<div class="dash"></div>
+<div class="srow"><span>IDPEL</span><b id="sid"></b></div>
+<div class="srow"><span>NAMA</span><b id="snama"></b></div>
+<div class="srow"><span>TARIF/DAYA</span><b id="sdaya"></b></div>
+<div class="srow"><span>BL/TH</span><b id="speriode"></b></div>
+<div class="dash"></div>
+<div class="srow"><span>TAGIHAN PLN</span><b id="stagihan"></b></div>
+<div class="srow"><span>ADMIN LOKET</span><b>Rp6.500</b></div>
+<div class="dash"></div>
+<div class="srow big"><span>TOTAL BAYAR</span><b id="stotal"></b></div>
+<div class="dash"></div>
+<div class="center small">Terima kasih telah melakukan pembayaran.<br>Struk ini adalah rancangan tampilan dan<br>belum merupakan bukti pembayaran PLN resmi.</div>
+</div>
+</div>
+<script>
+function rp(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n)}
+function cek(){
+ let id=document.getElementById('id').value.trim();
+ if(!id){alert('Masukkan ID Pelanggan');return}
+ // Data contoh untuk tampilan. Nanti diganti hasil API PLN.
+ let tagihan=185000, admin=6500;
+ document.getElementById('rid').textContent=id;
+ document.getElementById('nama').textContent='BUDI SANTOSO';
+ document.getElementById('daya').textContent='R1 / 1.300 VA';
+ document.getElementById('periode').textContent='SEPTEMBER 2026';
+ document.getElementById('tagihan').textContent=rp(tagihan);
+ document.getElementById('total').textContent=rp(tagihan+admin);
+ ['sid','snama','sdaya','speriode','stagihan','stotal'].forEach((x,i)=>document.getElementById(x).textContent=[id,'BUDI SANTOSO','R1 / 1.300 VA','SEPTEMBER 2026',rp(tagihan),rp(tagihan+admin)][i]);
+ document.getElementById('result').style.display='block';
+}
+function cetak(){document.getElementById('struk').style.display='block';window.print()}
+function resetForm(){location.reload()}
+</script>
+</body></html>
